@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: local-devex-deploy
+  labels:
+    app: local-devex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: local-devex
+  template:
+    metadata:
+      labels:
+        app: local-devex
+    spec:
+      containers:
+      - name: app
+        image: local/proper-solution:v1
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /data
+          name: test-volume
+      volumes:
+        - name: test-volume
+          hostPath:
+            # directory location on host
+            path: /data

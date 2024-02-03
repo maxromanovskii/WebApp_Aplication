@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: local-dev-deploy
+  labels:
+    app: local-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: local-dev
+  template:
+    metadata:
+      labels:
+        app: local-dev
+    spec:
+      containers:
+      - name: app
+        image: local/fallback-solution:v1
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /data
+          name: test-volume
+      volumes:
+        - name: test-volume
+          hostPath:
+            # directory location on host
+            path: /data
