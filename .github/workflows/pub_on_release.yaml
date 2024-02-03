@@ -29,14 +29,14 @@ jobs:
       LOGIN: ${{ secrets.DOCKER_LOGIN }}
       NAME: ${{ secrets.DOCKER_NAME }}
     steps:
-      - name: Login to docker.io
+      - name: Login to docker
         run:  echo ${{ secrets.DOCKER_PWD }} | docker login --username ${{ secrets.DOCKER_LOGIN }} --password-stdin
       - uses: actions/checkout@master
       - name: Build image
         run: docker build -t $LOGIN/$NAME:${GITHUB_REF:10} -f Dockerfile .
-      - name: Push image tag to docker.io
+      - name: Push image tag to docker
         run: docker push $LOGIN/$NAME:${GITHUB_REF:10}
       - name: Tag last release as latest
         run: docker tag $LOGIN/$NAME:${GITHUB_REF:10} $LOGIN/$NAME:latest
-      - name: Push image tag latest to docker.io
+      - name: Push image tag latest to docker
         run: docker push $LOGIN/$NAME:latest
